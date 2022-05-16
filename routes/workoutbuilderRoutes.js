@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const paymentController = require("./../controllers/payment");
+const workoutbuilder = require("../controllers/workoutbuilder");
 
 
 //  const authController = require('./../controllers/authController');
@@ -8,8 +8,8 @@ const paymentController = require("./../controllers/payment");
 const router = express.Router();
 console.clear()
 // const upload = multer({ dest: "/" });
-router.route("/completePayment")
-    .post(paymentController.completePayment)
+router.route("/addWorkout")
+    .post(workoutbuilder.addWorkout)
 
 //172.17.240.1
 module.exports = router;
