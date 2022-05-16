@@ -12,6 +12,7 @@ const AppError =require('./utils/AppError')
 const userRoute = require('./routes/userRoutes')
 const mealRoute = require('./routes/calRoutes')
 const coachingRoute = require('./routes/coachingController')
+const paymentRoutes= require('./routes/paymentRoutes')
 // create express
 const app = express();
 app.use(cors());
@@ -48,6 +49,7 @@ app.all("/",(req, res) => {
 })
 app.use('/api/user', userRoute);
 app.use('/api/meal', mealRoute);
+app.use('/api/payment',paymentRoutes);
 app.use('/api/coachingRoute', coachingRoute);
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
