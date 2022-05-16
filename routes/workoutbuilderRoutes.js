@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const workoutbuilder = require("../controllers/workoutbuilder");
+const workoutbuilder = require("../controllers/workoutbuilderController");
 
 
 //  const authController = require('./../controllers/authController');
