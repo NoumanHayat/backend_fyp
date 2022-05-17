@@ -5,8 +5,7 @@ const jwt = require("jsonwebtoken");
 const stripe = require("stripe")(process.env.Stripe_Secret_key);
 
 exports.addPayment = catchAsync(async (req, res, next) => {
-  const Stripe_Publishable_key = process.env.Stripe_Publishable_key;
-  const Stripe_Secret_key = process.env.Stripe_Secret_key;
+  console.log(req.body)
   const token = await stripe.tokens.create({
     card: {
       number: req.body.cardNumber,
@@ -28,7 +27,7 @@ exports.addPayment = catchAsync(async (req, res, next) => {
     })
     .catch(function (e) {
       console.log("Charge Fail");
+      console.log(e)
       res.json({ message: "Charge Fail" });
     });
-
 });
