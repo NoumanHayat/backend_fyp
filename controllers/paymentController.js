@@ -20,6 +20,7 @@ exports.addPayment = catchAsync(async (req, res, next) => {
       amount: req.body.amount * 100,
       source: token.id,
       currency: "usd",
+     
     })
     .then(function () {
       console.log("Charge Successful");
@@ -31,3 +32,4 @@ exports.addPayment = catchAsync(async (req, res, next) => {
       res.json({ message: "Charge Fail" });
     });
 });
+ 
