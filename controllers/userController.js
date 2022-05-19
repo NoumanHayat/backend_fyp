@@ -1,6 +1,7 @@
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const User = require("./../models/useModels");
+const Payment = require("./../models/paymentModels");
 const sendEmail = require("../utils/email");
 const jwt = require("jsonwebtoken");
 const assessMetabolism = require("../utils/assessMetabolism");
@@ -72,15 +73,25 @@ exports.signup = catchAsync(async (req, res, next) => {
   } catch (err) {
     console.log("Error=" + err);
   }
+
   var today = new Date();
   let newtoday = today.getTime() % 86400000;
   newttoday = today.getTime() - newtoday;
   const newRecord = await dailyWeight.create({
     weight: req.body.weight,
     bodyFatPercentage: req.body.bodyFatPercentage,
-    UserId: req.user.id,
+    UserId: newUser.id,
     Date: newttoday,
   });
+  //============================================================
+  let ExpireDate = today.getTime() + (86400000*30);
+  await Payment.create({ 
+    packageType:"Trial",
+    UserId:newUser.id,
+    Date:today,
+    ExpireDate:ExpireDate
+  })
+  //=============================================================
   createSendToken(newUser, 201, res);
 });
 exports.signin = catchAsync(async (req, res, next) => {
@@ -149,31 +160,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     );
   }
 });
-
-//===================================================================================================
-// exports.forgotPassword = catchAsync(async (req, res, next) => {
-//       try {
-//     const temp=await sendEmail({
-//       email: req.body.email,
-//       subject: "Your password reset token (valid for 10 min)",
-//       message:"hello this is your password reset token",
-//     });
-//     console.log(temp);
-//     res.status(200).json({
-//       status: "success",
-//       message: "Token sent to email!",
-//     });
-//   } catch (err) {
-//     // user.passwordResetToken = undefined;
-//     // user.passwordResetExpires = undefined;
-//     // await user.save({ validateBeforeSave: false });
-//     console.log(err);
-//     return next(
-//       new AppError("There was an error sending the email. Try again later!"),
-//       500
-//     );
-//   }
-// });
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
   const token = parseInt(req.body.token);

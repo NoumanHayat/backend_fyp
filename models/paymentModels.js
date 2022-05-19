@@ -4,7 +4,7 @@ const paymentSchema = new mongoose.Schema({
   packageType: {
     type: String,
     Required: true,
-    Default: "Trials",
+    Default: "Trial",
   },
   UserId: {
     type: mongoose.Schema.ObjectId,
@@ -23,3 +23,4 @@ const paymentSchema = new mongoose.Schema({
 const Payment = mongoose.model("payment", paymentSchema);
 
 module.exports = Payment;
+ 
