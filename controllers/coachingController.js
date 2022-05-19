@@ -286,53 +286,54 @@ exports.currentWeekPercentage = catchAsync(async (req, res, next) => {
       { Date: { $gte: newttoday } },
     ],
   });
-
-  Brakfast.forEach((es) => {
-    BreakfastCalories = BreakfastCalories + es.Calories;
-    BreakfastProtein = BreakfastProtein + es.Protein;
-    BreakfastCarbs = BreakfastCarbs + es.Carbs;
-    BreakfastFats = BreakfastFats + es.Fats;
-  });
-  lunch.forEach((es) => {
-    lunchCalories = lunchCalories + es.Calories;
-    lunchProtein = lunchProtein + es.Protein;
-    lunchCarbs = lunchCarbs + es.Carbs;
-    lunchFats = lunchFats + es.Fats;
-  });
-  Dinner.forEach((es) => {
-    DinnerCalories = DinnerCalories + es.Calories;
-    DinnerProtein = DinnerProtein + es.Protein;
-    DinnerCarbs = DinnerCarbs + es.Carbs;
-    DinnerFats = DinnerFats + es.Fats;
-  });
+  if (Brakfast[0] !== undefined) {
+    Brakfast.forEach((es) => {
+      BreakfastCalories = BreakfastCalories + es.Calories;
+      BreakfastProtein = BreakfastProtein + es.Protein;
+      BreakfastCarbs = BreakfastCarbs + es.Carbs;
+      BreakfastFats = BreakfastFats + es.Fats;
+    });
+    lunch.forEach((es) => {
+      lunchCalories = lunchCalories + es.Calories;
+      lunchProtein = lunchProtein + es.Protein;
+      lunchCarbs = lunchCarbs + es.Carbs;
+      lunchFats = lunchFats + es.Fats;
+    });
+    Dinner.forEach((es) => {
+      DinnerCalories = DinnerCalories + es.Calories;
+      DinnerProtein = DinnerProtein + es.Protein;
+      DinnerCarbs = DinnerCarbs + es.Carbs;
+      DinnerFats = DinnerFats + es.Fats;
+    });
+  }
 
   //======================================================================================
   const ddd = new Date().getTime() - 604800000;
   // Date: { $gte: ddd }
   const check = await scModels.findOne({
     $and: [{ UserId: req.user.id }, { Date: { $gte: ddd } }],
-   });
+  });
   // let Calories =0;
   // let Protein =0;
   // let Carbs =0;
   // let Fats =0;
 
   let Calories =
-      (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories > 1
-          ? 1
-          : (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories;
+    (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories > 1
+      ? 1
+      : (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories;
   let Protein =
-      (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein > 1
-          ? 1
-          : (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein;
+    (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein > 1
+      ? 1
+      : (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein;
   let Carbs =
-      (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs > 1
-          ? 1
-          : (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs;
+    (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs > 1
+      ? 1
+      : (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs;
   let Fats =
-      (BreakfastFats + lunchFats + DinnerFats) / check.Fats > 1
-          ? 1
-          : (BreakfastFats + lunchFats + DinnerFats) / check.Fats;
+    (BreakfastFats + lunchFats + DinnerFats) / check.Fats > 1
+      ? 1
+      : (BreakfastFats + lunchFats + DinnerFats) / check.Fats;
 
   // ==============================================================
 
@@ -347,7 +348,7 @@ exports.currentWeekPercentage = catchAsync(async (req, res, next) => {
   // let Fats =0;
   const reasult = [
     {
-      Calories: Calories ,
+      Calories: Calories,
       Protein: Protein,
       Carbs: Carbs,
       Fats: Fats,
@@ -367,7 +368,7 @@ exports.addDailyWeight = catchAsync(async (req, res, next) => {
   var today = new Date();
   let newtoday = today.getTime() % 86400000;
   newttoday = today.getTime() - newtoday;
- 
+
   const bfPercentage = bodyfatprediction(78);
 
   // const bfPercentage = bodyfatprediction(req.body.bodyFatPercentage);
@@ -389,15 +390,15 @@ exports.getDailyWeight = catchAsync(async (req, res, next) => {
   // var Date = Array(response.length);
   // var weight = Array(response.length);
   // var _id=Array(response.length);
-  var resp=Array(response.length);
+  var resp = Array(response.length);
   for (var i = 0; i < response.length; i++) {
-    console.log(response[i].Date.toUTCString(3))
-    resp[i]={
-      "weight":response[i].weight,
-      "Date":response[i].Date.toUTCString(),
-      "bodyFatPercentage":response[i].bodyFatPercentage,
-      "_id":response[i].bodyFatPercentage
-    }
+    console.log(response[i].Date.toUTCString(3));
+    resp[i] = {
+      weight: response[i].weight,
+      Date: response[i].Date.toUTCString(),
+      bodyFatPercentage: response[i].bodyFatPercentage,
+      _id: response[i].bodyFatPercentage,
+    };
     // weight[i] = response[i].weight;
     // Date[i] = response[i].Date.toUTCString();
     // bodyFatPercentage[i] = response[i].bodyFatPercentage;
@@ -414,7 +415,6 @@ exports.weeklyCheckInHistory = catchAsync(async (req, res, next) => {
   for (var i = 0; i < response.length; i++) {
     weight[i] = response[i].weight;
     date[i] = response[i].Date.toUTCString();
-
   }
 
   for (var i = 0; i < response.length - 1; i++) {
@@ -423,21 +423,21 @@ exports.weeklyCheckInHistory = catchAsync(async (req, res, next) => {
         Date: date[i],
         Weight: weight[i],
         PreviousWeight: weight[i + 1],
-        Status: "Maintenan Weight"
+        Status: "Maintenan Weight",
       };
-    }else if (weight[i] < weight[i + 1]) {
+    } else if (weight[i] < weight[i + 1]) {
       responseData[i] = {
         Date: date[i],
         Weight: weight[i],
         PreviousWeight: weight[i + 1],
-        Status: "Lose weight"
+        Status: "Lose weight",
       };
-    }else{
+    } else {
       responseData[i] = {
         Date: date[i],
         Weight: weight[i],
         PreviousWeight: weight[i + 1],
-        Status: "Weight gain"
+        Status: "Weight gain",
       };
     }
   }

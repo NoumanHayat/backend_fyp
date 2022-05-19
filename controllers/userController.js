@@ -64,6 +64,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     TargetWeight: req.body.TargetWeight,
     weeklyGoal: req.body.weeklyGoal,
   });
+  req.user=newUser;
   try {
     await sendEmail({
       email: newUser.email,
@@ -83,6 +84,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     UserId: newUser.id,
     Date: newttoday,
   });
+
   //============================================================
   let ExpireDate = today.getTime() + (86400000*30);
   await Payment.create({ 
@@ -240,3 +242,4 @@ exports.helpAndSupport = catchAsync(async (req, res, next) => {
   res.send(200, newHAS);
 });
 //a function that takes in a number of factors and assesses users maintenence calories
+ 

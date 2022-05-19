@@ -106,25 +106,27 @@ exports.getTodayMeals = catchAsync(async (req, res, next) => {
       { Date: { $gte: newttoday } },
     ],
   });
-
-  Brakfast.forEach((es) => {
-    BreakfastCalories = BreakfastCalories + es.Calories;
-    BreakfastProtein = BreakfastProtein + es.Protein;
-    BreakfastCarbs = BreakfastCarbs + es.Carbs;
-    BreakfastFats = BreakfastFats + es.Fats;
-  });
-  lunch.forEach((es) => {
-    lunchCalories = lunchCalories + es.Calories;
-    lunchProtein = lunchProtein + es.Protein;
-    lunchCarbs = lunchCarbs + es.Carbs;
-    lunchFats = lunchFats + es.Fats;
-  });
-  Dinner.forEach((es) => {
-    DinnerCalories = DinnerCalories + es.Calories;
-    DinnerProtein = DinnerProtein + es.Protein;
-    DinnerCarbs = DinnerCarbs + es.Carbs;
-    DinnerFats = DinnerFats + es.Fats;
-  });
+  if (Brakfast[0] !== undefined) {
+    console.log("Start Working");
+    Brakfast.forEach((es) => {
+      BreakfastCalories = BreakfastCalories + es.Calories;
+      BreakfastProtein = BreakfastProtein + es.Protein;
+      BreakfastCarbs = BreakfastCarbs + es.Carbs;
+      BreakfastFats = BreakfastFats + es.Fats;
+    });
+    lunch.forEach((es) => {
+      lunchCalories = lunchCalories + es.Calories;
+      lunchProtein = lunchProtein + es.Protein;
+      lunchCarbs = lunchCarbs + es.Carbs;
+      lunchFats = lunchFats + es.Fats;
+    });
+    Dinner.forEach((es) => {
+      DinnerCalories = DinnerCalories + es.Calories;
+      DinnerProtein = DinnerProtein + es.Protein;
+      DinnerCarbs = DinnerCarbs + es.Carbs;
+      DinnerFats = DinnerFats + es.Fats;
+    });
+  }
 
   const reasult = [
     {
@@ -433,25 +435,27 @@ exports.diaryhistory = catchAsync(async (req, res, next) => {
         { Date: { $lte: newttoday } },
       ],
     });
+    if (Brakfast[0] !== undefined) {
+      Brakfast.forEach((es) => {
+        BreakfastCalories[i] = BreakfastCalories[i] + es.Calories;
+        BreakfastProtein[i] = BreakfastProtein[i] + es.Protein;
+        BreakfastCarbs[i] = BreakfastCarbs[i] + es.Carbs;
+        BreakfastFats[i] = BreakfastFats[i] + es.Fats;
+      });
+      lunch.forEach((es) => {
+        lunchCalories[i] = lunchCalories[i] + es.Calories;
+        lunchProtein[i] = lunchProtein[i] + es.Protein;
+        lunchCarbs[i] = lunchCarbs[i] + es.Carbs;
+        lunchFats[i] = lunchFats[i] + es.Fats;
+      });
+      Dinner.forEach((es) => {
+        DinnerCalories[i] = DinnerCalories[i] + es.Calories;
+        DinnerProtein[i] = DinnerProtein[i] + es.Protein;
+        DinnerCarbs[i] = DinnerCarbs[i] + es.Carbs;
+        DinnerFats[i] = DinnerFats[i] + es.Fats;
+      });
+    }
 
-    Brakfast.forEach((es) => {
-      BreakfastCalories[i] = BreakfastCalories[i] + es.Calories;
-      BreakfastProtein[i] = BreakfastProtein[i] + es.Protein;
-      BreakfastCarbs[i] = BreakfastCarbs[i] + es.Carbs;
-      BreakfastFats[i] = BreakfastFats[i] + es.Fats;
-    });
-    lunch.forEach((es) => {
-      lunchCalories[i] = lunchCalories[i] + es.Calories;
-      lunchProtein[i] = lunchProtein[i] + es.Protein;
-      lunchCarbs[i] = lunchCarbs[i] + es.Carbs;
-      lunchFats[i] = lunchFats[i] + es.Fats;
-    });
-    Dinner.forEach((es) => {
-      DinnerCalories[i] = DinnerCalories[i] + es.Calories;
-      DinnerProtein[i] = DinnerProtein[i] + es.Protein;
-      DinnerCarbs[i] = DinnerCarbs[i] + es.Carbs;
-      DinnerFats[i] = DinnerFats[i] + es.Fats;
-    });
     //=====================================================================
     const ddd = newttoday;
     const check = await scModels.findOne({
@@ -460,30 +464,30 @@ exports.diaryhistory = catchAsync(async (req, res, next) => {
         { $or: [{ Date: { $lte: ddd } }, { Date: ddd }] },
       ],
     });
-
-
-    Calories[i] =
-      (BreakfastCalories[i] + lunchCalories[i] + DinnerCalories[i]) /
-        check.Calories >
-      1
-        ? 1
-        : (BreakfastCalories[i] + lunchCalories[i] + DinnerCalories[i]) /
-        check.Calories;
-    Protein[i] =
-      (BreakfastProtein[i] + lunchProtein[i] + DinnerProtein[i]) /
-        check.Protein >
-      1
-        ? 1
-        : (BreakfastProtein[i] + lunchProtein[i] + DinnerProtein[i]) /
-          check.Protein;
-    Carbs[i] =
-      (BreakfastCarbs[i] + lunchCarbs[i] + DinnerCarbs[i]) / check.Carbs > 1
-        ? 1
-        : (BreakfastCarbs[i] + lunchCarbs[i] + DinnerCarbs[i]) / check.Carbs;
-    Fats[i] =
-      (BreakfastFats[i] + lunchFats[i] + DinnerFats[i]) / check.Fats > 1
-        ? 1
-        : (BreakfastFats[i] + lunchFats[i] + DinnerFats[i]) / check.Fats;
+    if (check !== null) {
+      Calories[i] =
+        (BreakfastCalories[i] + lunchCalories[i] + DinnerCalories[i]) /
+          check.Calories >
+        1
+          ? 1
+          : (BreakfastCalories[i] + lunchCalories[i] + DinnerCalories[i]) /
+            check.Calories;
+      Protein[i] =
+        (BreakfastProtein[i] + lunchProtein[i] + DinnerProtein[i]) /
+          check.Protein >
+        1
+          ? 1
+          : (BreakfastProtein[i] + lunchProtein[i] + DinnerProtein[i]) /
+            check.Protein;
+      Carbs[i] =
+        (BreakfastCarbs[i] + lunchCarbs[i] + DinnerCarbs[i]) / check.Carbs > 1
+          ? 1
+          : (BreakfastCarbs[i] + lunchCarbs[i] + DinnerCarbs[i]) / check.Carbs;
+      Fats[i] =
+        (BreakfastFats[i] + lunchFats[i] + DinnerFats[i]) / check.Fats > 1
+          ? 1
+          : (BreakfastFats[i] + lunchFats[i] + DinnerFats[i]) / check.Fats;
+    }
 
     //====================================================================
     newttoday = newttoday - 86400000;

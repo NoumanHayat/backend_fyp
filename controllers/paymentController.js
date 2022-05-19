@@ -32,4 +32,6 @@ exports.addPayment = catchAsync(async (req, res, next) => {
       res.json({ message: "Charge Fail" });
     });
 });
- 
+exports.checkPayment = catchAsync(async (req, res, next) => {
+  
+});
