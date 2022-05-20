@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
-const coachingController = require("./../controllers/coachingController");
-const authController = require("./../controllers/authController");
+const coachingController = require("../controllers/coachingController");
+const authController = require("../controllers/authController");
 const router = express.Router();
 router.route("/initialCoaching")
     .post(authController.protect,coachingController.initialCoaching)
