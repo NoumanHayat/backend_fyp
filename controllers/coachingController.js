@@ -369,7 +369,7 @@ exports.addDailyWeight = catchAsync(async (req, res, next) => {
   let newtoday = today.getTime() % 86400000;
   newttoday = today.getTime() - newtoday;
 
-  const bfPercentage = bodyfatprediction(78);
+  const bfPercentage = bodyfatprediction(parseInt(req.body.bodyFatPercentage));
 
   // const bfPercentage = bodyfatprediction(req.body.bodyFatPercentage);
   const newRecord = await dailyWeight.create({
@@ -385,11 +385,10 @@ exports.addDailyWeight = catchAsync(async (req, res, next) => {
   });
 });
 exports.getDailyWeight = catchAsync(async (req, res, next) => {
-  const response = await dailyWeight.find({ UserId: req.user.id });
-  // var bodyFatPercentage = Array(response.length);
-  // var Date = Array(response.length);
-  // var weight = Array(response.length);
-  // var _id=Array(response.length);
+  const response = await dailyWeight.find({ UserId: req.user.id }).sort({
+    Date: 1,
+  });
+
   var resp = Array(response.length);
   for (var i = 0; i < response.length; i++) {
     console.log(response[i].Date.toUTCString(3));
@@ -399,10 +398,6 @@ exports.getDailyWeight = catchAsync(async (req, res, next) => {
       bodyFatPercentage: response[i].bodyFatPercentage,
       _id: response[i].bodyFatPercentage,
     };
-    // weight[i] = response[i].weight;
-    // Date[i] = response[i].Date.toUTCString();
-    // bodyFatPercentage[i] = response[i].bodyFatPercentage;
-    // _id[i]=response[i].bodyFatPercentage;
   }
 
   res.send(200, resp);

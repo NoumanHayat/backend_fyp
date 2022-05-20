@@ -7,9 +7,9 @@ const router = express.Router();
 console.clear();
 // const upload = multer({ dest: "/" });
 router
-  .route("/test")
-
-  .post(authController.protect, progressTracking.test);
+  .route("/getWeight")
+  .post(authController.protect, progressTracking.getWeight);
 
 //172.17.240.1
 module.exports = router;
+ 
