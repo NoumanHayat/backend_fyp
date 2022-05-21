@@ -244,24 +244,1479 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     Date: -1,
   });
 
+  // const detail =
+
   let dailyValue = new Array();
   let dailyLabel = new Array();
+  let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
+  let weeklyLabel = ["", "", "", "", "", "", ""];
+  let monthlyValue = [0, 0, 0, 0, 0, 0, 0];
+  let monthlyLabel = ["", "", "", "", "", "", ""];
 
   let check = 0;
   let sum = meal[0].Calories;
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
-      console.log(meal[i].Date.getDate() + "-" + meal[i].Date.getMonth());
-      console.log(meal[i].Date.getDate() + "");
       sum = sum + meal[i].Calories;
     } else {
-      console.log("======================================================");
       dailyValue[check] = sum;
-      dailyLabel[check] =meal[i - 1].Date.getDate() + "-" + meal[i - 1].Date.getMonth();
+      dailyLabel[check] =
+        meal[i - 1].Date.getDate() + "-" + meal[i - 1].Date.getMonth();
       sum = meal[i].Calories;
       check++;
     }
   }
+  //===================================================================================
+  let today = new Date();
+  let todaysTime = today.getTime() % 86400000;
+  let newDay = today.getTime() + -todaysTime;
 
-  res.send(dailyValue);
+  let count = 0;
+  let weekEnd = newDay;
+  let weekStart = newDay - 7 * 86400000;
+
+  const week1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week1.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+
+  let tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week2.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week3.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week4.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week5.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week6.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week7.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Calories;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================================================================================================
+  //================================================================================================================
+  //================================================================================================================
+  count = 0;
+  monthEnd = newDay;
+  monthStart = newDay - 30 * 86400000;
+
+  const month1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month1.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month2.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month3.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month4.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month5.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month6.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month7.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Calories;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //=============================================================================================
+
+  const detail = {
+    DailyLabel: dailyLabel,
+    weeklyLabel: weeklyLabel,
+    MonthlyLabel: monthlyLabel,
+    DailyData: dailyValue,
+    weeklyData: weeklyValue,
+    MonthlyData: monthlyValue,
+  };
+
+  res.send(detail);
 });
+exports.getProtein = catchAsync(async (req, res, next) => {
+  const meal = await meals.find({ UserId: req.user.id }).sort({
+    Date: -1,
+  });
+
+  // const detail =
+
+  let dailyValue = new Array();
+  let dailyLabel = new Array();
+  let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
+  let weeklyLabel = ["", "", "", "", "", "", ""];
+  let monthlyValue = [0, 0, 0, 0, 0, 0, 0];
+  let monthlyLabel = ["", "", "", "", "", "", ""];
+
+  let check = 0;
+  let sum = meal[0].Protein;
+  for (let i = 1; i < meal.length; i++) {
+    if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
+      sum = sum + meal[i].Protein;
+    } else {
+      dailyValue[check] = sum;
+      dailyLabel[check] =
+        meal[i - 1].Date.getDate() + "-" + meal[i - 1].Date.getMonth();
+      sum = meal[i].Protein;
+      check++;
+    }
+  }
+  //===================================================================================
+  let today = new Date();
+  let todaysTime = today.getTime() % 86400000;
+  let newDay = today.getTime() + -todaysTime;
+
+  let count = 0;
+  let weekEnd = newDay;
+  let weekStart = newDay - 7 * 86400000;
+
+  const week1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week1.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+
+  let tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week2.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week3.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week4.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week5.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week6.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week7.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Protein;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================================================================================================
+  //================================================================================================================
+  //================================================================================================================
+  count = 0;
+  monthEnd = newDay;
+  monthStart = newDay - 30 * 86400000;
+
+  const month1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month1.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month2.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month3.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month4.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month5.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month6.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month7.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Protein;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //=============================================================================================
+
+  const detail = {
+    DailyLabel: dailyLabel,
+    weeklyLabel: weeklyLabel,
+    MonthlyLabel: monthlyLabel,
+    DailyData: dailyValue,
+    weeklyData: weeklyValue,
+    MonthlyData: monthlyValue,
+  };
+
+  res.send(detail);
+});
+exports.getCarbs = catchAsync(async (req, res, next) => {
+  const meal = await meals.find({ UserId: req.user.id }).sort({
+    Date: -1,
+  });
+
+  // const detail =
+
+
+
+  let dailyValue = new Array();
+  let dailyLabel = new Array();
+  let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
+  let weeklyLabel = ["", "", "", "", "", "", ""];
+  let monthlyValue = [0, 0, 0, 0, 0, 0, 0];
+  let monthlyLabel = ["", "", "", "", "", "", ""];
+
+  let check = 0;
+  let sum = meal[0].Carbs;
+  for (let i = 1; i < meal.length; i++) {
+    if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
+      sum = sum + meal[i].Carbs;
+    } else {
+      dailyValue[check] = sum;
+      dailyLabel[check] =
+        meal[i - 1].Date.getDate() + "-" + meal[i - 1].Date.getMonth();
+      sum = meal[i].Carbs;
+      check++;
+    }
+  }
+  //===================================================================================
+  let today = new Date();
+  let todaysTime = today.getTime() % 86400000;
+  let newDay = today.getTime() + -todaysTime;
+
+  let count = 0;
+  let weekEnd = newDay;
+  let weekStart = newDay - 7 * 86400000;
+
+  const week1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week1.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+
+  let tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week2.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week3.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week4.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week5.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week6.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week7.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Carbs;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================================================================================================
+  //================================================================================================================
+  //================================================================================================================
+  count = 0;
+  monthEnd = newDay;
+  monthStart = newDay - 30 * 86400000;
+
+  const month1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month1.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month2.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month3.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month4.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month5.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month6.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month7.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Carbs;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //=============================================================================================
+
+  const detail = {
+    DailyLabel: dailyLabel,
+    weeklyLabel: weeklyLabel,
+    MonthlyLabel: monthlyLabel,
+    DailyData: dailyValue,
+    weeklyData: weeklyValue,
+    MonthlyData: monthlyValue,
+  };
+
+  res.send(detail);
+});
+exports.getFats = catchAsync(async (req, res, next) => {
+  const meal = await meals.find({ UserId: req.user.id }).sort({
+    Date: -1,
+  });
+
+  // const detail =
+
+
+
+  let dailyValue = new Array();
+  let dailyLabel = new Array();
+  let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
+  let weeklyLabel = ["", "", "", "", "", "", ""];
+  let monthlyValue = [0, 0, 0, 0, 0, 0, 0];
+  let monthlyLabel = ["", "", "", "", "", "", ""];
+
+  let check = 0;
+  let sum = meal[0].Fats;
+  for (let i = 1; i < meal.length; i++) {
+    if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
+      sum = sum + meal[i].Fats;
+    } else {
+      dailyValue[check] = sum;
+      dailyLabel[check] =
+        meal[i - 1].Date.getDate() + "-" + meal[i - 1].Date.getMonth();
+      sum = meal[i].Fats;
+      check++;
+    }
+  }
+  //===================================================================================
+  let today = new Date();
+  let todaysTime = today.getTime() % 86400000;
+  let newDay = today.getTime() + -todaysTime;
+
+  let count = 0;
+  let weekEnd = newDay;
+  let weekStart = newDay - 7 * 86400000;
+
+  const week1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week1.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+
+  let tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week2.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week3.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week4.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week5.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week6.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================
+  count = count + 1;
+  weekEnd = weekEnd - 7 * 86400000;
+  weekStart = weekStart - 7 * 86400000;
+
+  const week7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  week7.forEach((e) => {
+    weeklyValue[count] = weeklyValue[count] + e.Fats;
+  });
+  tempDate = new Date(weekEnd);
+
+  weeklyLabel[count] = tempDate.getDate() + "-" + tempDate.getMonth();
+  //===========================================================================================================================
+  //================================================================================================================
+  //================================================================================================================
+  count = 0;
+  monthEnd = newDay;
+  monthStart = newDay - 30 * 86400000;
+
+  const month1 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month1.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month2 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month2.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month3 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month3.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month4 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month4.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month5 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month5.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month6 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month6.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //==========================================================================================================================
+  count = count + 1;
+  monthEnd = monthEnd - 30 * 86400000;
+  monthStart = monthStart - 30 * 86400000;
+
+  const month7 = await meals
+    .find({
+      $and: [
+        { UserId: req.user.id },
+        { Date: { $gte: weekStart } },
+        { Date: { $lte: weekEnd } },
+      ],
+    })
+    .sort({
+      Date: -1,
+    });
+
+  month7.forEach((e) => {
+    monthlyValue[count] = monthlyValue[count] + e.Fats;
+  });
+
+  tempDate = new Date(monthEnd);
+  monthlyLabel[count] = tempDate.getMonth() + "-" + tempDate.getUTCFullYear();
+  //=============================================================================================
+
+  const detail = {
+    DailyLabel: dailyLabel,
+    weeklyLabel: weeklyLabel,
+    MonthlyLabel: monthlyLabel,
+    DailyData: dailyValue,
+    weeklyData: weeklyValue,
+    MonthlyData: monthlyValue,
+  };
+
+  res.send(detail);
+});
+ 

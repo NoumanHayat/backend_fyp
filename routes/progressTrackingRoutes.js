@@ -18,6 +18,15 @@ router
 router
   .route("/getCalories")
   .post(authController.protect, progressTracking.getCalories);
+router
+  .route("/getProtein")
+  .post(authController.protect, progressTracking.getProtein);
+router
+  .route("/getCarbs")
+  .post(authController.protect, progressTracking.getCarbs);
+router
+  .route("/getFats")
+  .post(authController.protect, progressTracking.getFats);
 //172.17.240.1
 module.exports = router;
  
