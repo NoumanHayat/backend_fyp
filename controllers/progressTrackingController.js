@@ -443,8 +443,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -466,8 +466,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -489,8 +489,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -512,8 +512,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -535,8 +535,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -558,8 +558,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -581,8 +581,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -812,8 +812,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -835,8 +835,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -858,8 +858,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -881,8 +881,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -904,8 +904,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -927,8 +927,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -950,8 +950,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1183,8 +1183,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1206,8 +1206,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1229,8 +1229,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1252,8 +1252,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1275,8 +1275,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1298,8 +1298,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1321,8 +1321,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1554,14 +1554,15 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
       Date: -1,
     });
 
+    
   month1.forEach((e) => {
     monthlyValue[count] = monthlyValue[count] + e.Fats;
   });
@@ -1577,8 +1578,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1600,8 +1601,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1623,8 +1624,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1646,8 +1647,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1669,8 +1670,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
@@ -1692,8 +1693,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
     .find({
       $and: [
         { UserId: req.user.id },
-        { Date: { $gte: weekStart } },
-        { Date: { $lte: weekEnd } },
+        { Date: { $gte: monthStart } },
+        { Date: { $lte: monthEnd } },
       ],
     })
     .sort({
