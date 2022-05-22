@@ -6,25 +6,20 @@ const bcrypt = require("bcrypt");
 const workoutbuilderSchema = new mongoose.Schema({
   WorkoutType: [
     {
-      // WorkoutType: {
-      UserId: mongoose.Schema.ObjectId,
+      UserId: String,
       Type: {
         type: String,
-        enum: ["powerlifting", "bodybuilding", "bodyweight", "crossfit"],
-        Default: "bodybuilding",
+        enum: ["PowerLifting", "BodyBuilding", "BodyWeight", "CrossFit"],
+        Default: "BodyBuilding",
       },
       workoutName: String,
       targetMuscle: String,
-      Date: {
-        type: Date,
-         required: [true, "Please provide a date"],
-      },
+
       intensity: {
         type: String,
-        enum: ["mild", "moderate", "intense"],
-        Default: "mild",
+        enum: ["Mild", "Moderate", "Intense"],
+        Default: "Mild",
       },
-      // },
     },
   ],
   Exercise: [
@@ -33,20 +28,20 @@ const workoutbuilderSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide name"],
       },
-      Sets: {
+      sets: {
         type: Number,
         required: [true, "Please provide Sets"],
       },
-      Reps: {
+      reps: {
         type: Number,
         required: [true, "Please provide Reps"],
       },
-      RPE: {
-        type: Number,
-        required: [true, "Please provide RPE"],
-      },
     },
   ],
+  Date: {
+    type: Date,
+    Default: new Date(),
+  },
 });
 
 const workoutbuilder = mongoose.model("workoutbuilder", workoutbuilderSchema);
