@@ -255,7 +255,9 @@ exports.getCalories = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Calories;
-  for (let i = 1; i < meal.length; i++) {
+   
+  
+  for (let i = 1; i < meal.length; ++i) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Calories;
     } else {
@@ -266,6 +268,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
       check++;
     }
   }
+  dailyValue=dailyValue.slice(0, 6);
+  dailyLabel=dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -624,6 +628,7 @@ exports.getProtein = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Protein;
+   
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Protein;
@@ -635,6 +640,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
       check++;
     }
   }
+  dailyValue=dailyValue.slice(0, 6);
+  dailyLabel=dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -995,6 +1002,7 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Carbs;
+   
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Carbs;
@@ -1006,6 +1014,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
       check++;
     }
   }
+  dailyValue=dailyValue.slice(0, 6);
+  dailyLabel=dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -1366,6 +1376,7 @@ exports.getFats = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Fats;
+   
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Fats;
@@ -1377,6 +1388,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
       check++;
     }
   }
+  dailyValue=dailyValue.slice(0, 6);
+  dailyLabel=dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
