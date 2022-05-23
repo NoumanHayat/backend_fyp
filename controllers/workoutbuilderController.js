@@ -755,7 +755,7 @@ exports.generateWorkout = catchAsync(async (req, res, next) => {
       0:"back - 10–25"
       2:"chest - 10–22"
       3: "arms - 4–18"
-      4:"Legs - 8-15" 
+      4:"Legs - 8-15"
       6:"shoulders - 8–26"
       9:"waist - 0–10",
       10:"full body - 12 sets per muscle group across the week"
@@ -785,7 +785,7 @@ exports.logWorkout = catchAsync(async (req, res, next) => {
     Date: nowDate,
   });
 
-  res.send(newWorkoutbuilder);
+  res.send(200,newWorkoutbuilder);
 });
 
 exports.getWorkout = catchAsync(async (req, res, next) => {
