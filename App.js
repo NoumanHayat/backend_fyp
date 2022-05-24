@@ -15,6 +15,7 @@ const coachingRoute = require('./routes/coachingRoutes')
 const workoutbuilderRoutes= require('./routes/workoutbuilderRoutes')
 const paymentRoute=require("./routes/paymentRoutes")
 const progressTrackingRoutes= require("./routes/progressTrackingRoutes")
+const externalRoutes = require("./routes/externalRoutes")
 // create express
 const app = express();
 app.use(cors());
@@ -55,6 +56,7 @@ app.use('/api/workoutbuilderRoutes',workoutbuilderRoutes);
 app.use('/api/coachingRoute', coachingRoute);
 app.use('/api/payment', paymentRoute);
 app.use('/api/progressTracking', progressTrackingRoutes);
+app.use('/api/external',externalRoutes)
 // progressTrackingRoutes
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
