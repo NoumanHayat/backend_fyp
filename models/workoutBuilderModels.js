@@ -9,7 +9,7 @@ const workoutbuilderSchema = new mongoose.Schema({
       UserId: String,
       Type: {
         type: String,
-        enum: ["PowerLifting", "BodyBuilding", "BodyWeight", "CrossFit"],
+        enum: ["PowerLifting", "BodyBuilding", "BodyWeight", "CrossFit","Custom"],
         Default: "BodyBuilding",
       },
       workoutName: String,
@@ -17,7 +17,7 @@ const workoutbuilderSchema = new mongoose.Schema({
 
       intensity: {
         type: String,
-        enum: ["Mild", "Moderate", "Intense"],
+        enum: ["Mild", "Moderate", "Intense","Custom"],
         Default: "Mild",
       },
     },

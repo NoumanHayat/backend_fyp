@@ -802,31 +802,31 @@ exports.getWorkout = catchAsync(async (req, res, next) => {
   let day7 = newttoday - 86400000 * 7;
 
   const detailsDay0 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: newttoday } }, { Date: { $lte: newttoday + 86400000 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: newttoday } }, { Date: { $lte: newttoday + 86400000 } }],
   });
 
   const detailsDay1 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day1 } }, { Date: { $lte: newttoday } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day1 } }, { Date: { $lte: newttoday } }],
   });
 
   const detailsDay2 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day2 } }, { Date: { $lte: day1 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day2 } }, { Date: { $lte: day1 } }],
   });
   const detailsDay3 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day3 } }, { Date: { $lte: day2 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day3 } }, { Date: { $lte: day2 } }],
   });
 
   const detailsDay4 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day4 } }, { Date: { $lte: day3 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day4 } }, { Date: { $lte: day3 } }],
   });
   const detailsDay5 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day5 } }, { Date: { $lte: day4 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day5 } }, { Date: { $lte: day4 } }],
   });
   const detailsDay6 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day6 } }, { Date: { $lte: day5 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day6 } }, { Date: { $lte: day5 } }],
   });
   const detailsDay7 = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: day7 } }, { Date: { $lte: day6 } }],
+    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day7 } }, { Date: { $lte: day6 } }],
   });
 
   var detailsDay0Exercise = [];
@@ -878,8 +878,8 @@ exports.getWorkout = catchAsync(async (req, res, next) => {
 });
 exports.plansCard = catchAsync(async (req, res, next) => {
   const result = await workoutbuilder.find({
-    $and: [{ UserId: req.user.id }],
+    $and: [{ "WorkoutType.UserId": req.user.id }],
   });
-
+ 
   res.status(200).send(result);
 });

@@ -23,19 +23,6 @@ exports.searchFood = catchAsync(async (req, res, next) => {
   res.send(200, response.data.foods[0]);
 });
 exports.exercisedb = catchAsync(async (req, res, next) => {
-  // const url = `https://exercisedb.p.rapidapi.com/exercises`;
-
-  // const response = await axios.get(url, {
-  //   headers: {
-  //     "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-  //     "X-RapidAPI-Key": "fa2b0918fcmsh7fee6645c618c82p1da69djsnab5407aca4c4",
-  //   },
-  // });
-  // //   const jsonData = await response.json();
-  // // destructure the response and create a new object with the same properties
-  // console.log(response);
-  // res.send(500, response);
-
   const options = {
     method: "GET",
     url: "https://exercisedb.p.rapidapi.com/exercises",
@@ -54,8 +41,8 @@ exports.exercisedb = catchAsync(async (req, res, next) => {
         item: name,
         id,
       }));
-      console.log(newData);
-      res.send(200, newData);
+      const responseData =newData.slice(0, 104)
+      res.send(200, responseData);
     })
     .catch(function (error) {
       console.error(error);
