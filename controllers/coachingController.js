@@ -111,9 +111,7 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
   // fetch weekly goal in kgs from user model
   const weeklyGoal = req.user.weeklyGoal;
   if (goal === "Fat loss") {
-    console.log("fat loss");
     let estimatedWeight = weight - weeklyGoal;
-    console.log(currentWeight > estimatedWeight);
     if (currentWeight > estimatedWeight) {
       //subtract 100 calories from suggested calories
       // suggestedCals = suggestedCals - 100;
@@ -131,6 +129,7 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
         carbs: (suggestedCals * 0.5) / 4,
         fat: (suggestedCals * 0.25) / 9,
       };
+
       //update weight
       weight = currentWeight;
       //update maintenance calories
@@ -142,7 +141,13 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
     } else {
       // if current weight is less than estimated weight or eqyal to estimated weight
       // just update users weight
+
       weight = currentWeight;
+      macros = {
+        protein: (req.user.MaintenanceCalories * 0.25) / 4,
+        carbs: (req.user.MaintenanceCalories * 0.5) / 4,
+        fat: (req.user.MaintenanceCalories * 0.25) / 9,
+      };
 
       //persist data to database
     }
@@ -174,6 +179,11 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
       // if current weight is greater than estimated weight or eqyal to estimated weight
       // just update users weight
       weight = currentWeight;
+      macros = {
+        protein: (req.user.MaintenanceCalories * 0.25) / 4,
+        carbs: (req.user.MaintenanceCalories * 0.5) / 4,
+        fat: (req.user.MaintenanceCalories * 0.25) / 9,
+      };
       //persist data to database
     }
   } else if (goal === "Maintenance") {
@@ -412,6 +422,7 @@ exports.getDailyWeight = catchAsync(async (req, res, next) => {
   });
 
   var resp = Array(response.length);
+
   for (var i = 0; i < response.length; i++) {
     console.log(response[i].Date.toUTCString(3));
     resp[i] = {
@@ -466,16 +477,21 @@ exports.weeklyCheckInStatus = catchAsync(async (req, res, next) => {
   let todaysTime = today.getTime() % 86400000;
   let newDay = today.getTime() + -todaysTime;
   let lastWeekDate = newDay - 7 * 86400000;
-
-  // let test= new Date(newDay);
-  // console.log(test.toUTCString());
-
   //==========================================================================
   const checkIns = await scModels.find({ UserId: req.user.id }).sort({
     Date: -1,
   });
+  var nextCheckIns = 0;
   var total = checkIns.length;
   var avalible = lastWeekDate > checkIns[0].Date.getTime();
-  console.log(avalible);
-  res.send(200, checkIns);
+  if (!avalible) {
+    nextCheckIns = checkIns[0].Date.getTime() - lastWeekDate;
+    nextCheckIns = parseInt(nextCheckIns / 86400000);
+  }
+  var responseData = {
+    total: total,
+    avalible: avalible,
+    nextCheckIns: nextCheckIns,
+  };
+  res.send(200, responseData);
 });

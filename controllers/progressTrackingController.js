@@ -19,6 +19,8 @@ exports.getWeight = catchAsync(async (req, res, next) => {
   //     _id: response[i].bodyFatPercentage,
   //   };
   // }
+  console.log("=============================================");
+  console.log(response);
   var countDaily = 1;
   const DailyWeight = response.filter((e) => {
     var today = new Date();
@@ -64,22 +66,26 @@ exports.getWeight = catchAsync(async (req, res, next) => {
 
   var MonthlyLabel = new Array();
   var MonthlyData = new Array();
+  try {
+    for (let i = 0; i < 7; i++) {
+      DailyLabel[i] =
+        DailyWeight[i].Date.getDate() + "-" + DailyWeight[i].Date.getMonth();
+      DailyData[i] = DailyWeight[i].weight;
 
-  for (let i = 0; i < 7; i++) {
-    DailyLabel[i] =
-      DailyWeight[i].Date.getDate() + "-" + DailyWeight[i].Date.getMonth();
-    DailyData[i] = DailyWeight[i].weight;
-
-    //=================================================
-    weeklyLabel[i] =
-      WeeklyWeight[i].Date.getDate() + "-" + WeeklyWeight[i].Date.getMonth();
-    weeklyData[i] = WeeklyWeight[i].weight;
-    //=================================================
-    MonthlyLabel[i] =
-      monthlyWeight[i].Date.getDate() + "-" + monthlyWeight[i].Date.getMonth();
-    MonthlyData[i] = monthlyWeight[i].weight;
+      //=================================================
+      weeklyLabel[i] =
+        WeeklyWeight[i].Date.getDate() + "-" + WeeklyWeight[i].Date.getMonth();
+      weeklyData[i] = WeeklyWeight[i].weight;
+      //=================================================
+      MonthlyLabel[i] =
+        monthlyWeight[i].Date.getDate() +
+        "-" +
+        monthlyWeight[i].Date.getMonth();
+      MonthlyData[i] = monthlyWeight[i].weight;
+    }
+  } catch (e) {
+    console.log(e);
   }
-
   const detail = {
     DailyLabel,
     weeklyLabel,
@@ -139,20 +145,25 @@ exports.getBodyFatPercentage = catchAsync(async (req, res, next) => {
 
   var MonthlyLabel = new Array();
   var MonthlyData = new Array();
+  try {
+    for (let i = 0; i < 7; i++) {
+      DailyLabel[i] =
+        DailyWeight[i].Date.getDate() + "-" + DailyWeight[i].Date.getMonth();
+      DailyData[i] = DailyWeight[i].bodyFatPercentage;
 
-  for (let i = 0; i < 7; i++) {
-    DailyLabel[i] =
-      DailyWeight[i].Date.getDate() + "-" + DailyWeight[i].Date.getMonth();
-    DailyData[i] = DailyWeight[i].bodyFatPercentage;
-
-    //=================================================
-    weeklyLabel[i] =
-      WeeklyWeight[i].Date.getDate() + "-" + WeeklyWeight[i].Date.getMonth();
-    weeklyData[i] = WeeklyWeight[i].bodyFatPercentage;
-    //=================================================
-    MonthlyLabel[i] =
-      monthlyWeight[i].Date.getDate() + "-" + monthlyWeight[i].Date.getMonth();
-    MonthlyData[i] = monthlyWeight[i].bodyFatPercentage;
+      //=================================================
+      weeklyLabel[i] =
+        WeeklyWeight[i].Date.getDate() + "-" + WeeklyWeight[i].Date.getMonth();
+      weeklyData[i] = WeeklyWeight[i].bodyFatPercentage;
+      //=================================================
+      MonthlyLabel[i] =
+        monthlyWeight[i].Date.getDate() +
+        "-" +
+        monthlyWeight[i].Date.getMonth();
+      MonthlyData[i] = monthlyWeight[i].bodyFatPercentage;
+    }
+  } catch (e) {
+    console.log(e);
   }
 
   const detail = {
@@ -171,6 +182,8 @@ exports.getMaintenanceCalories = catchAsync(async (req, res, next) => {
     .sort({
       Date: -1,
     });
+
+  console.log(MaintenanceCalories);
   // let response = new Array();
   // let count = 0;
   // MaintenanceCalories.forEach((e) => {
@@ -230,13 +243,14 @@ exports.getMaintenanceCalories = catchAsync(async (req, res, next) => {
     MonthlyData[count] = e.Calories;
     count++;
   });
+   const detail = {
+      weeklyLabel,
+      MonthlyLabel,
+      weeklyData,
+      MonthlyData,
+    };
 
-  const detail = {
-    weeklyLabel,
-    MonthlyLabel,
-    weeklyData,
-    MonthlyData,
-  };
+
   res.send(200, detail);
 });
 exports.getCalories = catchAsync(async (req, res, next) => {
@@ -255,8 +269,7 @@ exports.getCalories = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Calories;
-   
-  
+
   for (let i = 1; i < meal.length; ++i) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Calories;
@@ -268,8 +281,8 @@ exports.getCalories = catchAsync(async (req, res, next) => {
       check++;
     }
   }
-  dailyValue=dailyValue.slice(0, 6);
-  dailyLabel=dailyLabel.slice(0, 6);
+  dailyValue = dailyValue.slice(0, 6);
+  dailyLabel = dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -628,7 +641,7 @@ exports.getProtein = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Protein;
-   
+
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Protein;
@@ -640,8 +653,8 @@ exports.getProtein = catchAsync(async (req, res, next) => {
       check++;
     }
   }
-  dailyValue=dailyValue.slice(0, 6);
-  dailyLabel=dailyLabel.slice(0, 6);
+  dailyValue = dailyValue.slice(0, 6);
+  dailyLabel = dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -991,8 +1004,6 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
 
   // const detail =
 
-
-
   let dailyValue = new Array();
   let dailyLabel = new Array();
   let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
@@ -1002,7 +1013,7 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Carbs;
-   
+
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Carbs;
@@ -1014,8 +1025,8 @@ exports.getCarbs = catchAsync(async (req, res, next) => {
       check++;
     }
   }
-  dailyValue=dailyValue.slice(0, 6);
-  dailyLabel=dailyLabel.slice(0, 6);
+  dailyValue = dailyValue.slice(0, 6);
+  dailyLabel = dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -1365,8 +1376,6 @@ exports.getFats = catchAsync(async (req, res, next) => {
 
   // const detail =
 
-
-
   let dailyValue = new Array();
   let dailyLabel = new Array();
   let weeklyValue = [0, 0, 0, 0, 0, 0, 0];
@@ -1376,7 +1385,7 @@ exports.getFats = catchAsync(async (req, res, next) => {
 
   let check = 0;
   let sum = meal[0].Fats;
-   
+
   for (let i = 1; i < meal.length; i++) {
     if (meal[i].Date.getDate() === meal[i - 1].Date.getDate()) {
       sum = sum + meal[i].Fats;
@@ -1388,8 +1397,8 @@ exports.getFats = catchAsync(async (req, res, next) => {
       check++;
     }
   }
-  dailyValue=dailyValue.slice(0, 6);
-  dailyLabel=dailyLabel.slice(0, 6);
+  dailyValue = dailyValue.slice(0, 6);
+  dailyLabel = dailyLabel.slice(0, 6);
   //===================================================================================
   let today = new Date();
   let todaysTime = today.getTime() % 86400000;
@@ -1575,7 +1584,6 @@ exports.getFats = catchAsync(async (req, res, next) => {
       Date: -1,
     });
 
-    
   month1.forEach((e) => {
     monthlyValue[count] = monthlyValue[count] + e.Fats;
   });
@@ -1733,4 +1741,3 @@ exports.getFats = catchAsync(async (req, res, next) => {
 
   res.send(detail);
 });
- 

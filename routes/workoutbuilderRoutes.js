@@ -24,5 +24,6 @@ router
 router
   .route("/recomendations")
   .post(authController.protect, workoutbuilder.recomendations);
+
 //172.17.240.1
 module.exports = router;

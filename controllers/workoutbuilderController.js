@@ -2,7 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const workoutbuilder = require("./../models/workoutBuilderModels");
 const jwt = require("jsonwebtoken");
-const axios= require("axios");
+const axios = require("axios");
 // build an array of objects for the workouts
 
 const workouts = [
@@ -920,9 +920,33 @@ exports.plansCard = catchAsync(async (req, res, next) => {
   res.status(200).send(result);
 });
 exports.recomendations = catchAsync(async (req, res, next) => {
-  const recomendation = await axios.post(`http://127.0.0.1:5000/getFoodRec`, {
-    Goal: req.user.Goal,
-  });
-  console.log(recomendation.data)
-  res.status(200).send(recomendation.data);
+  if (req.body.query == "") {
+    const recomendation = await axios.post(`http://127.0.0.1:5000/getFoodRec`, {
+      Goal: req.user.Goal,
+    });
+    let data = recomendation.data.split("\n");
+    data.pop();
+    console.log(data);
+    const result = {
+      type: "Based on your goal",
+      recomendation: data,
+    };
+    res.status(200).send(result);
+  } else {
+    console.log(req.body.query);
+    const recomendation = await axios.post(`http://127.0.0.1:5000/getFoodRecFoodBased`, {
+      food: req.body.query,
+    });
+    let data = recomendation.data.split("\n");
+    data.pop();
+    console.log(data);
+    const result = {
+      type: "Based on your Food preference",
+      recomendation: data,
+    };
+    res.status(200).send(result);
+  }
 });
+
+
+
