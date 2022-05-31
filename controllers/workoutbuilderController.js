@@ -2,7 +2,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const workoutbuilder = require("./../models/workoutBuilderModels");
 const jwt = require("jsonwebtoken");
-
+const axios= require("axios");
 // build an array of objects for the workouts
 
 const workouts = [
@@ -762,7 +762,11 @@ exports.generateWorkout = catchAsync(async (req, res, next) => {
       */
   };
   const response = workouts.filter((item) => {
-    return item.type == userInfo.trainingType && item.intensity == userInfo.trainingIntensity && item.targetMuscle == userInfo.targetMuscle;
+    return (
+      item.type == userInfo.trainingType &&
+      item.intensity == userInfo.trainingIntensity &&
+      item.targetMuscle == userInfo.targetMuscle
+    );
   });
 
   res.status(200).json({
@@ -785,7 +789,7 @@ exports.logWorkout = catchAsync(async (req, res, next) => {
     Date: nowDate,
   });
 
-  res.send(200,newWorkoutbuilder);
+  res.send(200, newWorkoutbuilder);
 });
 
 exports.getWorkout = catchAsync(async (req, res, next) => {
@@ -802,31 +806,63 @@ exports.getWorkout = catchAsync(async (req, res, next) => {
   let day7 = newttoday - 86400000 * 7;
 
   const detailsDay0 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: newttoday } }, { Date: { $lte: newttoday + 86400000 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: newttoday } },
+      { Date: { $lte: newttoday + 86400000 } },
+    ],
   });
 
   const detailsDay1 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day1 } }, { Date: { $lte: newttoday } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day1 } },
+      { Date: { $lte: newttoday } },
+    ],
   });
 
   const detailsDay2 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day2 } }, { Date: { $lte: day1 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day2 } },
+      { Date: { $lte: day1 } },
+    ],
   });
   const detailsDay3 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day3 } }, { Date: { $lte: day2 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day3 } },
+      { Date: { $lte: day2 } },
+    ],
   });
 
   const detailsDay4 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day4 } }, { Date: { $lte: day3 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day4 } },
+      { Date: { $lte: day3 } },
+    ],
   });
   const detailsDay5 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day5 } }, { Date: { $lte: day4 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day5 } },
+      { Date: { $lte: day4 } },
+    ],
   });
   const detailsDay6 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day6 } }, { Date: { $lte: day5 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day6 } },
+      { Date: { $lte: day5 } },
+    ],
   });
   const detailsDay7 = await workoutbuilder.find({
-    $and: [{ "WorkoutType.UserId": req.user.id }, { Date: { $gte: day7 } }, { Date: { $lte: day6 } }],
+    $and: [
+      { "WorkoutType.UserId": req.user.id },
+      { Date: { $gte: day7 } },
+      { Date: { $lte: day6 } },
+    ],
   });
 
   var detailsDay0Exercise = [];
@@ -880,6 +916,13 @@ exports.plansCard = catchAsync(async (req, res, next) => {
   const result = await workoutbuilder.find({
     $and: [{ "WorkoutType.UserId": req.user.id }],
   });
- 
+
   res.status(200).send(result);
+});
+exports.recomendations = catchAsync(async (req, res, next) => {
+  const recomendation = await axios.post(`http://127.0.0.1:5000/getFoodRec`, {
+    Goal: req.user.Goal,
+  });
+  console.log(recomendation.data)
+  res.status(200).send(recomendation.data);
 });

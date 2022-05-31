@@ -5,7 +5,7 @@ const scModels = require("./../models/scModels");
 const calModels = require("./../models/calModels");
 const dailyWeight = require("./../models/dailyWeight");
 const bodyfatprediction = require("./../BodyfatPrediction/controller/predictionController");
-
+const axios = require("axios");
 exports.initialCoaching = catchAsync(async (req, res, next) => {
   //get user from database.
   //get Goal from user model
@@ -90,7 +90,7 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
       Weight: req.user.Weight,
     }
   );
-  const goal = "Maintenance"; // this can be anyone from ["Fat-loss", "Muscle Gain", "Maintenance"] in database.
+  const goal = req.user.Goal; // this can be anyone from ["Fat-loss", "Muscle Gain", "Maintenance"] in database.
   // get users current weight in kgs from user model
   let weight = req.user.Weight;
   let currentWeight = req.body.currentWeight;
@@ -98,8 +98,10 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
   //=======================================================
   const ddd = new Date().getTime() - 604800000;
   const check = await scModels.findOne({
-    $and: [{ UserId: req.user.id }, { Date: { $gte: ddd } }],
+    $and: [{ UserId: req.user.id }, { Date: { $lte: ddd } }],
   });
+  console.log(check.weight);
+  let Weekly_Drop = req.user.Weight - check.weight;
 
   let suggestedCals = check.Calories;
   //get maintenance calories from user model
@@ -108,11 +110,22 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
   let macros = {};
   // fetch weekly goal in kgs from user model
   const weeklyGoal = req.user.weeklyGoal;
-  if (goal === "Fat-loss") {
+  if (goal === "Fat loss") {
+    console.log("fat loss");
     let estimatedWeight = weight - weeklyGoal;
+    console.log(currentWeight > estimatedWeight);
     if (currentWeight > estimatedWeight) {
       //subtract 100 calories from suggested calories
-      suggestedCals = suggestedCals - 100;
+      // suggestedCals = suggestedCals - 100;
+      let suggestedCalsResponse = await axios.post(`http://127.0.0.1:5000`, {
+        TDEE: maintenanceCalories,
+        Goal: 1,
+        "Weekly Drop": Weekly_Drop,
+        "Body Fat": req.user.BodyFat,
+      });
+      let suggestedCals = suggestedCalsResponse.data;
+
+      //==============================================
       macros = {
         protein: (suggestedCals * 0.25) / 4,
         carbs: (suggestedCals * 0.5) / 4,
@@ -130,13 +143,20 @@ exports.weeklyCheckIn = catchAsync(async (req, res, next) => {
       // if current weight is less than estimated weight or eqyal to estimated weight
       // just update users weight
       weight = currentWeight;
+
       //persist data to database
     }
   } else if (goal === "Muscle Gain") {
     let estimatedWeight = weight + weeklyGoal;
     if (currentWeight < estimatedWeight) {
       //add 100 calories to suggested calories
-      suggestedCals = suggestedCals + 100;
+      let suggestedCalsResponse = await axios.post(`http://127.0.0.1:5000`, {
+        TDEE: maintenanceCalories,
+        Goal: 2,
+        "Weekly Drop": abs(Weekly_Drop),
+        "Body Fat": req.user.BodyFat,
+      });
+      let suggestedCals = suggestedCalsResponse.data;
       macros = {
         protein: (suggestedCals * 0.25) / 4,
         carbs: (suggestedCals * 0.6) / 4,
@@ -313,27 +333,29 @@ exports.currentWeekPercentage = catchAsync(async (req, res, next) => {
   const check = await scModels.findOne({
     $and: [{ UserId: req.user.id }, { Date: { $gte: ddd } }],
   });
-  // let Calories =0;
-  // let Protein =0;
-  // let Carbs =0;
-  // let Fats =0;
-
-  let Calories =
-    (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories > 1
-      ? 1
-      : (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories;
-  let Protein =
-    (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein > 1
-      ? 1
-      : (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein;
-  let Carbs =
-    (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs > 1
-      ? 1
-      : (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs;
-  let Fats =
-    (BreakfastFats + lunchFats + DinnerFats) / check.Fats > 1
-      ? 1
-      : (BreakfastFats + lunchFats + DinnerFats) / check.Fats;
+  let Calories = 0;
+  let Protein = 0;
+  let Carbs = 0;
+  let Fats = 0;
+  if (check != null) {
+    Calories =
+      (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories > 1
+        ? 1
+        : (BreakfastCalories + lunchCalories + DinnerCalories) / check.Calories;
+    Protein =
+      (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein > 1
+        ? 1
+        : (BreakfastProtein + lunchProtein + DinnerProtein) / check.Protein;
+    Carbs =
+      (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs > 1
+        ? 1
+        : (BreakfastCarbs + lunchCarbs + DinnerCarbs) / check.Carbs;
+    Fats =
+      (BreakfastFats + lunchFats + DinnerFats) / check.Fats > 1
+        ? 1
+        : (BreakfastFats + lunchFats + DinnerFats) / check.Fats;
+  }
+  console.log(check);
 
   // ==============================================================
 
@@ -438,4 +460,22 @@ exports.weeklyCheckInHistory = catchAsync(async (req, res, next) => {
   }
   console.log(responseData);
   res.send(200, responseData);
+});
+exports.weeklyCheckInStatus = catchAsync(async (req, res, next) => {
+  let today = new Date();
+  let todaysTime = today.getTime() % 86400000;
+  let newDay = today.getTime() + -todaysTime;
+  let lastWeekDate = newDay - 7 * 86400000;
+
+  // let test= new Date(newDay);
+  // console.log(test.toUTCString());
+
+  //==========================================================================
+  const checkIns = await scModels.find({ UserId: req.user.id }).sort({
+    Date: -1,
+  });
+  var total = checkIns.length;
+  var avalible = lastWeekDate > checkIns[0].Date.getTime();
+  console.log(avalible);
+  res.send(200, checkIns);
 });

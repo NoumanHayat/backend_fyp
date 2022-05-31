@@ -19,5 +19,7 @@ router.route("/getDailyWeight")
     .post(authController.protect,coachingController.getDailyWeight)
 router.route("/weeklyCheckInHistory")
     .post(authController.protect,coachingController.weeklyCheckInHistory)
+router.route("/weeklyCheckInStatus")
+    .post(authController.protect,coachingController.weeklyCheckInStatus)
     module.exports = router;
    
